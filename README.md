@@ -2,7 +2,7 @@
 
 MolProphecy is a cutting-edge multimodal molecular property prediction system that combines molecular graph encoding with chemical expert insights from ChatGPT. This system leverages both structural molecular information and expert knowledge to achieve superior prediction performance across various molecular property prediction tasks.
 
-![](./docs/MolProphecy.png)
+![](./docs/model_architecture_new.png)
 
 ## 🚀 Features
 
