@@ -280,28 +280,6 @@ MolProphecy/
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## �� Acknowledgments
-
-- [MolCLR](https://github.com/yuyangw/MolCLR) for molecular contrastive learning representations
-- TorchDrug for molecular graph processing
-- HuggingFace Transformers for language models
-- OpenAI for ChatGPT API access
-- RDKit for molecular cheminformatics
-
-### Citations
-
-If you use MolCLR in your research, please cite:
-```bibtex
-@article{wang2022molclr,
-  title={Molecular contrastive learning of representations via graph neural networks},
-  author={Wang, Yuyang and Wang, Jianren and Cao, Zhonglin and Barati Farimani, Amir},
-  journal={Nature Machine Intelligence},
-  pages={1--9},
-  year={2022},
-  publisher={Nature Publishing Group},
-  doi={10.1038/s42256-022-00447-x}
-}
-```
 
 ## 📞 Contact
 
