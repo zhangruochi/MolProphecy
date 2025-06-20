@@ -157,6 +157,8 @@ python fusion_train.py
 
 ### Inference
 
+We provide a pre-trained model for FreeSolv dataset, you can download it from [Google Drive](https://drive.google.com/file/d/1-EeIkoIeov6dfb5O_-i-G4Mm2Lf9Fg85/view?usp=drive_link).
+
 ```bash
 python inference.py
 ```
