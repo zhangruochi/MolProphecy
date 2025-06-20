@@ -1,0 +1,30 @@
+Please act as an experienced medicinal chemist collaborating with an AI team to develop a algorithm for predicting the properties of molecules. The AI expert seeks your insights on molecules from a domain knowledge perspective. I Will give you the molecules、the task and ome instruction you can refer to.
+
+Molecules:
+
+```
+{SMILES}
+```
+
+TASK: 
+```
+{TASK}
+```
+
+INSTRUCTION:
+```
+1. You can consider the following aspects: Physicochemical properties, structural analysis, functional groups, stereochemistry, size and complexity, and similar approved drugs, Key fragments, Key functional groups. 
+2. Please provide some quantitative results. For example, you believe there is an 80% probability that this molecule is toxic.
+3. Please give your answer with the following json format:
+"""
+{{
+	"Query SMILES": SMILES for molecule,
+	"Physicochemical properties": your description,
+	"structural analysis": your description,
+	...
+	"Quantitative result": your prediction
+}}
+"""
+```
+
+Your insights:

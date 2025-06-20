@@ -1,0 +1,168 @@
+task_desc:
+  clintox: "Toxicity predictive task."
+  bace: "Binary binding predictive task for inhibitors of human beta-secretase 1 (BACE-1)."
+  freesolv: "Hydration free energy predictive task in water."
+  sider: '''The sider prediction task involves predicting the following 27 side effects based on the given molecular structures (SMILES notations). Please provide your insights on predicting the side effects, either for all of them or for those tasks you are more confident in. The clearer and detailed your insights, the better. The 27 side effects are as follows:
+            1.	Hepatobiliary disorders
+            2.	Metabolism and nutrition disorders
+            3.	Product issues
+            4.	Eye disorders
+            5.	Investigations
+            6.	Musculoskeletal and connective tissue disorders
+            7.	Gastrointestinal disorders
+            8.	Social circumstances
+            9.	Immune system disorders
+            10.	Reproductive system and breast disorders
+            11.	Neoplasms benign, malignant, and unspecified (including cysts and polyps)
+            12.	General disorders and administration site conditions
+            13.	Endocrine disorders
+            14.	Surgical and medical procedures
+            15.	Vascular disorders
+            16.	Blood and lymphatic system disorders
+            17.	Skin and subcutaneous tissue disorders
+            18.	Congenital, familial, and genetic disorders
+            19.	Infections and infestations
+            20.	Respiratory, thoracic, and mediastinal disorders
+            21.	Psychiatric disorders
+            22.	Renal and urinary disorders
+            23.	Pregnancy, puerperium, and perinatal conditions
+            24.	Ear and labyrinth disorders
+            25.	Cardiac disorders
+            26.	Nervous system disorders
+            27.	Injury, poisoning, and procedural complications'''
+  
+chemist:
+  prompt:
+    path: "./chemist/prompts"
+    version: v2
+  predictor:
+    prompt_path: "./chemist/predictor_prompts"
+    version: v1
+  chatgpt_oracle:
+    error_embedding_txt: "I do not have any insights for this molecule."
+    clintox:
+      path: "./data/clintox"
+      version: v1
+    bace:
+      path: "./data/bace"
+      version: v1
+    freesolv:
+      path: "./data/freesolv"
+      version: v1
+    sider: 
+      path: "./data/sider"
+      version: v1
+
+mode:
+  nni: False
+
+train:
+  device_ids: [1]
+  dataset: bace   # sider bace freesolv clintox
+  data_split: "scaffold"  # scaffold or random (regression task use random; classify task use scaffold)
+  learning_rate: 3e-4
+  adam_epsilon: 1e-7
+  weight_decay: 1e-3
+  num_epoch: 150
+  batch_size: 128
+  gradient_interval: 1
+  random_seed: 8
+  lr_scheduler_use: False
+  lr_scheduler:
+    type: plateau # cosine, plateau, StepLR, MultiStepLR
+    when: epoch # batch, epoch
+    cosine:
+      T_0: 2
+      T_mult: 2
+      eta_min: 1e-6
+    plateau:
+      factor: 0.6 
+      patience: 5
+      min_lr: 5e-6
+      mode: max
+    StepLR:
+      step_size: 5
+      gamma: 0.5
+    MultiStepLR:
+      milestones: [10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,115,120,125,130,135,140,145,150,155,160,165,170,175,180,185,190,195,200]
+      gamma: 0.8
+  fusion_approach: "attention" #concat tensor_fusion bilinear_fusion low_rank_fusion attention_low_rank_fusion
+  GatedXattnDenseLayer:
+    num_layers: 6
+    num_head: 8
+    dropout: 0.0
+  early_stop_patience: 10
+  save_model_path: "./save_model"
+  Ablation:
+    is_ablation: True
+    experiment_model: graph # bert llama graph sequence
+
+LLMs:
+  model: llama # bert llama
+  freeze: True
+  bert:
+    model: "./bert-base-uncased"
+    tokenizer: "./bert-base-uncased"
+    padding: "max_length"
+    truncation: True
+    max_length: 512
+    output_dim: 768
+  llama:
+    model: "./Meta-Llama-3-8B"
+    tokenizer: "./Meta-Llama-3-8B"
+    padding: "max_length"
+    truncation: True
+    max_length: 512
+    output_dim: 4096
+    use_cache: True
+
+Expert:
+  physicochemical_properties: [] #['MW', 'ALOGP', 'HBA', 'HBD', 'PSA', 'ROTB', 'AROM']
+  model: "graph"
+  freeze: False
+  graph:
+    model: "./molclr"
+    feat_dim: 512 #""
+    # edge_feature_dim: 18 #""
+    emb_dim: 300
+    num_graph_layers: 5
+    drop_ratio: 0.1
+    readout: "mean"
+    batch_norm: True
+  sequence:
+    model: "./ChemBERTa_zinc250k_v2_40k"
+    tokenizer: "./ChemBERTa_zinc250k_v2_40k"
+    padding: "max_length"
+    truncation: True
+    output_hidden_states: True
+    max_length: 256
+    output_dim: 768
+
+
+
+Handcrafted:
+  use_handcrafted_features: True
+  feature_dim: 200
+
+FP_Handcrafted:
+  use_fp_handcrafted_features: False
+  feature_dim: 2248
+
+
+Projection:
+  llm_output_dim: 256
+  expert_output_dim: 256
+  physicochemical_properties_output_dim: 32
+  fusion_output_dim: 512
+
+  
+Head:
+  num_mlp_layer: 3
+  batch_norm: False 
+  dropout: 0.5
+
+
+
+
+
+  

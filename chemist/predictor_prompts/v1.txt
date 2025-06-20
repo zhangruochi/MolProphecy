@@ -1,0 +1,36 @@
+Please act as an experienced medicinal chemist collaborating with an AI team to develop a algorithm for predicting the properties of molecules. The AI expert seeks your insights on molecules from a domain knowledge perspective. I Will give you the molecules、the rule of five for the provided molecule、the predictive task description and some instructions you need follow.
+
+Molecules:
+
+```
+{SMILES}
+```
+
+Rule of Five: 
+```
+MW: {MW}
+CLogP: {CLogP}
+HBA: {HBA}
+HBD: {HBD}
+RB: {RB}
+TPSA: {TPSA}
+```
+
+TASK: 
+```
+{TASK}
+```
+
+INSTRUCTION:
+```
+1. You can consider the following aspects: Physicochemical properties, structural analysis, functional groups, stereochemistry, size and complexity, and similar approved drugs, Key fragments, Key functional groups.
+2. Please give your prediction results.
+3. The answer should be with the following json format. Do not include other text.
+"""
+{{
+	"probability": < A float value range from 0 ~ 1>
+}}
+"""
+```
+
+Your Prediction:

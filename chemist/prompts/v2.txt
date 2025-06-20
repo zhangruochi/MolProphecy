@@ -1,0 +1,34 @@
+Please act as an experienced medicinal chemist collaborating with an AI team to develop a algorithm for predicting the properties of molecules. The AI expert seeks your insights on molecules from a domain knowledge perspective. I Will give you the molecules、the rule of five for the provided molecule、the predictive task description and some instructions you need follow.
+
+Molecules:
+
+```
+{SMILES}
+```
+
+Rule of Five: 
+```
+MW: {MW}
+CLogP: {CLogP}
+HBA: {HBA}
+HBD: {HBD}
+RB: {RB}
+TPSA: {TPSA}
+```
+
+TASK: 
+```
+{TASK}
+```
+
+INSTRUCTION:
+```
+1. You need to use your unique perspective as a medicinal chemist to identify the unique characteristics of the molecules provided.
+2. You can consider the following aspects: Physicochemical properties, structural analysis, key functional groups, Key fragments, stereochemistry, size and complexity, and similar approved drugs. 
+3. Your description needs to be concise, including only essential information. 
+4. Please return your answer with the following json format. Do not return anything outside of the JSON string.
+{{
+	"Query SMILES": SMILES for molecule,
+	"Insights": Your concise description
+}}
+```
